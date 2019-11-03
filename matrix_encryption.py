@@ -1,0 +1,40 @@
+import numpy as np
+import random
+from encryption_helper import EncryptionHelper
+
+class MatrixEncryption:
+
+    __N = random.randint(1,100000)
+    __N_squared = random.randint(1,100000)
+
+    def __init__(self, obj):
+        # TODO: find another way to pass the __N and __N_squared args
+        self.__N = obj.get_N()
+        self.__N_squared = obj.get_N_squared()
+
+    def __convert_message(self, message):
+        return message % (self.__N_squared)
+
+    def __create_first_message_matrix(self, m):
+        r1, r2 = (random.randint(1, 1000000000)%self.__N_squared for i in range(2))
+        return np.array([[m, r1],[0, r2]])
+
+    def __create_second_message_matrix(self, m_1):
+        r1_1 = random.randint(1, 1000000000) % self.__N_squared
+        return np.array([[m_1, r1_1], [0, 0]])
+
+    def __create_message_sub_matrices(self, secret_key, message):
+        m = EncryptionHelper.create_quaternion(message, self.__N)
+        M = self.__create_first_message_matrix(m)
+        # TODO: replace this with the method crated in matrix_operations
+        M_1 = secret_key[0].dot((M)/100000).dot(secret_key[1])*100000 # TODO: fix overflow
+        m_1 = EncryptionHelper.create_quaternion(message, self.__N)
+        M_2 = self.__create_second_message_matrix(m_1)
+        return M_1, M_2
+
+    def encrypt_message(self, secret_key, message):
+        converted_message = self.__convert_message(message)
+        M_1, M_2 = self.__create_message_sub_matrices(secret_key, converted_message)
+        R = EncryptionHelper.generate_random_square_matrix(self.__N_squared)
+        M_final = np.bmat([[M_1, R],[np.zeros([2,2]), M_2]])
+        return secret_key[2].dot((M_final)/100000).dot(secret_key[3])*100000
