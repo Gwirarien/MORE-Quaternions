@@ -11,18 +11,15 @@ class EncryptionHelper:
     def is_prime_number(n):
         if n < 2:
             return False
-
         for number in islice(count(2), int(sqrt(n) - 1)):
             if n % number == 0:
                 return False
-
         return True
 
     @staticmethod
     def generate_random_prime_number():
         while True:
-            # the small values are just a workaround
-            random_number = random.randint(3, 7) # TODO: find a way to support larger values
+            random_number = random.randint(2, 5) # TODO: find a way to support larger values
             if(EncryptionHelper.is_prime_number(random_number)):
                 return random_number
 
@@ -61,7 +58,7 @@ class EncryptionHelper:
                 sign = (-1)**(i+j)
                 minor = EncryptionHelper.matrix_minor(matrix, j, i)
                 adj[i][j] = (sign*int(round(np.linalg.det(minor))))%mod_value
-        return np.matrix((EncryptionHelper.inverse_modulo(determinant, mod_value) * adj)%mod_value).astype(int)
+        return np.matrix((EncryptionHelper.inverse_modulo(determinant, mod_value) * adj)%mod_value,dtype='longlong')
 
     @staticmethod
     def has_modular_inverse(matrix, mod_value):
@@ -84,11 +81,10 @@ class EncryptionHelper:
 
     @staticmethod
     def generate_random_square_matrix(mod_value):
-        matrix = (np.random.rand(2,2)*10000).astype(int)
+        matrix = (np.random.rand(2,2)*1000).astype('longlong')
         return matrix % mod_value
 
     @staticmethod
     def create_quaternion(sigma, mod_value):
         alfa, beta, gamma = (random.randint(1, 1000)%mod_value for i in range(3))
-        return Quaternion(sigma, alfa*mod_value, beta*mod_value, gamma*mod_value) # not sure if it should be divided again by mod_value
-
+        return Quaternion(sigma, alfa*mod_value, beta*mod_value, gamma*mod_value)

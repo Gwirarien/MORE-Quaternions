@@ -30,7 +30,7 @@ class KeyGenerator:
             sub_matrices = self.__generate_sub_matrices()
             K_matrix = np.bmat([[sub_matrices[0], sub_matrices[1]],[sub_matrices[2], sub_matrices[3]]])
             if(EncryptionHelper.has_modular_inverse(K_matrix, self.__N_squared)):
-                return np.matrix(K_matrix), np.matrix(sub_matrices[0])
+                return np.matrix(K_matrix,dtype='longlong'), np.matrix(sub_matrices[0],dtype='longlong')
 
     def generate_secret_key(self):
         p, q = self.__generate_prime_numbers()
@@ -39,8 +39,5 @@ class KeyGenerator:
         k1_inverse = EncryptionHelper.compute_modular_inverse(k1_matrix, self.__N_squared)
         K_inverse = EncryptionHelper.compute_modular_inverse(K_matrix, self.__N_squared)
         return (k1_matrix, k1_inverse, K_matrix, K_inverse)
-
-# TODO: start a debug from the beginning and verify every calculation at least 5 times
-
 
 
