@@ -19,7 +19,7 @@ class EncryptionHelper:
     @staticmethod
     def generate_random_prime_number():
         while True:
-            random_number = random.randint(2, 5) # TODO: find a way to support larger values
+            random_number = random.randint(2, 5)
             if(EncryptionHelper.is_prime_number(random_number)):
                 return random_number
 
@@ -65,7 +65,7 @@ class EncryptionHelper:
         try:
             determinant = np.linalg.det(matrix)
             if ((determinant != 0) and (EncryptionHelper.inverse_modulo(round(determinant), mod_value) != 1)):
-                return True #investigate if a 4x4 matrix is correctly calculated
+                return True
         except:
             return False
 

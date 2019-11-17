@@ -1,13 +1,11 @@
 import numpy as np
 import random
-from encryption_helper import EncryptionHelper
 
 class MatrixDecryption:
 
     __N = random.randint(1,100000)
 
     def __init__(self, obj):
-        # TODO: find another way to pass the __N and __N_squared args
         self.__N = obj.get_N()
         self.__N_squared = obj.get_N_squared()
 

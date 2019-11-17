@@ -8,7 +8,6 @@ class MatrixEncryption:
     __N_squared = random.randint(1,100000)
 
     def __init__(self, obj):
-        # TODO: find another way to pass the __N and __N_squared args
         self.__N = obj.get_N()
         self.__N_squared = obj.get_N_squared()
 
@@ -26,7 +25,6 @@ class MatrixEncryption:
     def __create_message_sub_matrices(self, secret_key, message):
         m = EncryptionHelper.create_quaternion(message, self.__N)
         M = self.__create_first_message_matrix(m)
-        # TODO: replace this with the method crated in matrix_operations
         M_1 = np.matrix((secret_key[0].dot(M)).dot(secret_key[1]))
         m_1 = EncryptionHelper.create_quaternion(message, self.__N)
         M_2 = self.__create_second_message_matrix(m_1)
