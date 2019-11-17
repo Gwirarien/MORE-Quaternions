@@ -80,6 +80,20 @@ class EncryptionHelper:
                 pass
 
     @staticmethod
+    def mod_quaternion_matrix(matrix, N):
+        mod_matrix = np.array([])
+        for i in range(4):
+            for j in range(4):
+                quaternion = matrix[j, i]
+                quaternion[0] = quaternion[0] % N
+                quaternion[1] = quaternion[1] % N
+                quaternion[2] = quaternion[2] % N
+                quaternion[3] = quaternion[3] % N
+                mod_quaternion = Quaternion(quaternion[0], quaternion[1], quaternion[2], quaternion[3])
+                mod_matrix = np.append(mod_matrix, mod_quaternion)
+        return np.reshape(np.matrix(mod_matrix), (4, 4))
+
+    @staticmethod
     def generate_random_square_matrix(mod_value):
         matrix = (np.random.rand(2,2)*1000).astype('longlong')
         return matrix % mod_value
