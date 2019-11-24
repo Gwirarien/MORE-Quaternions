@@ -38,8 +38,8 @@ while is_not_found:
         while True:
             encrypted_matrix = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
             encrypted_matrix1 = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
-            N = key_gen.get_N_squared()
-            encrypted_matrix1 = EncryptionHelper.mod_quaternion_matrix(encrypted_matrix1, N)
+            N_squared = key_gen.get_N_squared()
+            encrypted_matrix1 = EncryptionHelper.mod_quaternion_matrix(encrypted_matrix1, N_squared)
             sum_matrix = np.add(encrypted_matrix, encrypted_matrix1)
             decrypted_message = MatrixDecryption(key_gen).decrypt_message(secret_key, sum_matrix)
             if (decrypted_message != (message + message1)):
@@ -54,8 +54,8 @@ while is_not_found:
         while True:
             encrypted_matrix = MatrixEncryption(key_gen).encrypt_message(secret_key, message)
             encrypted_matrix1 = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
-            N = key_gen.get_N_squared()
-            encrypted_matrix1 = EncryptionHelper.mod_quaternion_matrix(encrypted_matrix1, N)
+            N_squared = key_gen.get_N_squared()
+            encrypted_matrix1 = EncryptionHelper.mod_quaternion_matrix(encrypted_matrix1, N_squared)
             subtraction_matrix = np.subtract(encrypted_matrix, encrypted_matrix1)
             decrypted_message = MatrixDecryption(key_gen).decrypt_message(secret_key, subtraction_matrix)
 

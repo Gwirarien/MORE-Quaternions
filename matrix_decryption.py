@@ -14,7 +14,7 @@ class MatrixDecryption:
                           [matrix[1, 0], matrix[1, 1]]])
 
     def __check_result(self, M, M1):
-        m = M.real%self.__N_squared
+        m = M.real%self.__N_squared # Changed from N to N^2. The odds of decryption rises dramatically
         m1 = M1.real%self.__N_squared
         if(m == m1):
             return m

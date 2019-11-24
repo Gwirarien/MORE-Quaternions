@@ -19,7 +19,7 @@ class EncryptionHelper:
     @staticmethod
     def generate_random_prime_number():
         while True:
-            random_number = random.randint(2, 5)
+            random_number = random.randint(2, 5) # Workaround to prevent overflow
             if(EncryptionHelper.is_prime_number(random_number)):
                 return random_number
 
