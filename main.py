@@ -10,7 +10,7 @@ def not_found_message():
     raise Exception
 
 key_gen = KeyGenerator()
-message = 10
+message = 3
 message1 = 5
 
 retries = 0
@@ -36,11 +36,11 @@ while is_not_found:
 
         count = 0
         while True:
-            encrypted_matrix = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
-            encrypted_matrix1 = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
+            encrypted_matrix_1 = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
+            encrypted_matrix_2 = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
             N_squared = key_gen.get_N_squared()
-            encrypted_matrix1 = EncryptionHelper.mod_quaternion_matrix(encrypted_matrix1, N_squared)
-            sum_matrix = np.add(encrypted_matrix, encrypted_matrix1)
+            encrypted_matrix_2 = EncryptionHelper.mod_quaternion_matrix(encrypted_matrix_2, N_squared)
+            sum_matrix = np.add(encrypted_matrix_1, encrypted_matrix_2)
             decrypted_message = MatrixDecryption(key_gen).decrypt_message(secret_key, sum_matrix)
             if (decrypted_message != (message + message1)):
                 count += 1
@@ -52,17 +52,17 @@ while is_not_found:
 
         count = 0
         while True:
-            encrypted_matrix = MatrixEncryption(key_gen).encrypt_message(secret_key, message)
-            encrypted_matrix1 = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
+            encrypted_matrix_1 = MatrixEncryption(key_gen).encrypt_message(secret_key, message)
+            encrypted_matrix_2 = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
             N_squared = key_gen.get_N_squared()
-            encrypted_matrix1 = EncryptionHelper.mod_quaternion_matrix(encrypted_matrix1, N_squared)
-            subtraction_matrix = np.subtract(encrypted_matrix, encrypted_matrix1)
-            decrypted_message = MatrixDecryption(key_gen).decrypt_message(secret_key, subtraction_matrix)
+            encrypted_matrix_2 = EncryptionHelper.mod_quaternion_matrix(encrypted_matrix_2, N_squared)
+            product_matrix = encrypted_matrix_1.dot(encrypted_matrix_2)
+            decrypted_message = MatrixDecryption(key_gen).decrypt_message(secret_key, product_matrix)
 
-            if (decrypted_message != (message - message1)):
+            if (decrypted_message != (message * message1)):
                 count += 1
-            elif (decrypted_message == (message - message1)):
-                print("The subtraction {0} was recovered after {1} iterations out of 1000".format(decrypted_message, count))
+            elif (decrypted_message == (message * message1)):
+                print("The multiplication {0} was recovered after {1} iterations out of 1000".format(decrypted_message, count))
                 break
             if(count > 1000):
                 not_found_message()
