@@ -10,8 +10,8 @@ def not_found_message():
     raise Exception
 
 key_gen = KeyGenerator()
-message = 3
-message1 = 5
+message = 4
+message1 = 2
 
 retries = 0
 is_not_found = True
@@ -48,6 +48,21 @@ while is_not_found:
                 print("The sum {0} was recovered after {1} iterations out of 1000".format(decrypted_message, count))
                 break
             if(count > 1000):
+                not_found_message()
+
+        count = 0
+        while True:
+            encrypted_matrix_1 = MatrixEncryption(key_gen).encrypt_message(secret_key, message)
+            encrypted_matrix_2 = MatrixEncryption(key_gen).encrypt_message(secret_key, message1)
+            sub_matrix = np.subtract(encrypted_matrix_1, encrypted_matrix_2)
+            decrypted_message = MatrixDecryption(key_gen).decrypt_message(secret_key, sub_matrix, False)
+            if (decrypted_message != (message - message1)):
+                count += 1
+            elif (decrypted_message == (message - message1)):
+                print("The subtraction {0} was recovered after {1} iterations out of 100".format(decrypted_message,
+                                                                                                 count))
+                break
+            if (count > 100):
                 not_found_message()
 
         count = 0
