@@ -27,9 +27,9 @@ class MatrixDecryption:
                 return None
         return m
 
-    def decrypt_message(self, secret_key, encrypted_matrix):
+    def decrypt_message(self, secret_key, encrypted_matrix, verifiable_decryption):
         rebuilt_message_matrix = np.matrix(secret_key[3].dot((encrypted_matrix).dot(secret_key[2])))
         M_2 = self.__recreate_M_2_matrix(rebuilt_message_matrix)
         M_1 = self.__recreate_M_1_matrix(rebuilt_message_matrix)
         M = np.matrix(secret_key[1].dot((M_1).dot(secret_key[0])))
-        return self.__check_result(M[0, 0], M_2[0, 0], False)
+        return self.__check_result(M[0, 0], M_2[0, 0], verifiable_decryption)
