@@ -1,13 +1,8 @@
 import numpy as np
 import random
+from encryption_helper import EncryptionHelper
 
 class MatrixDecryption:
-
-    __N = random.randint(1,100000)
-
-    def __init__(self, obj):
-        self.__N = obj.get_N()
-        self.__N_squared = obj.get_N_squared()
 
     def __recreate_M_1_matrix(self, matrix):
         return np.matrix([[matrix[0, 0], matrix[0, 1]],
@@ -18,9 +13,9 @@ class MatrixDecryption:
                           [matrix[3, 2], matrix[3, 3]]])
 
     def __check_result(self, M, M2, verifiable):
-        m = M.real%self.__N_squared
+        m = M.real % EncryptionHelper.get_N_squared()
         if(verifiable):
-            m1 = M2.real % self.__N_squared
+            m1 = M2.real % EncryptionHelper.get_N_squared()
             if (m == m1):
                 return m
             else:

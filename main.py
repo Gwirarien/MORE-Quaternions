@@ -25,11 +25,12 @@ is_not_found = True
 while is_not_found:
     try:
         secret_key = key_gen.generate_secret_key()
+        encrypted_matrix = MatrixEncryption().encrypt_message(secret_key, message_scaled)
 
         count = 0
         while True:
-            encrypted_matrix = MatrixEncryption(key_gen).encrypt_message(secret_key, message_scaled)
-            decrypted_message = MatrixDecryption(key_gen).decrypt_message(secret_key, encrypted_matrix, False)
+            encrypted_matrix = MatrixEncryption().encrypt_message(secret_key, message_scaled)
+            decrypted_message = MatrixDecryption().decrypt_message(secret_key, encrypted_matrix, False)
 
             if (decrypted_message != message_scaled):
                 secret_key = key_gen.generate_secret_key() # If the key is regenerated every iteration, the chances of a correct encryption/decryption rises
@@ -42,12 +43,12 @@ while is_not_found:
 
         count = 0
         while True:
-            encrypted_matrix_1 = MatrixEncryption(key_gen).encrypt_message(secret_key, message_scaled)
-            encrypted_matrix_2 = MatrixEncryption(key_gen).encrypt_message(secret_key, message1_scaled)
-            N_squared = key_gen.get_N_squared()
-            encrypted_matrix_2 = EncryptionHelper.mod_quaternion_matrix(encrypted_matrix_2, N_squared)
+            encrypted_matrix_1 = MatrixEncryption().encrypt_message(secret_key, message_scaled)
+            encrypted_matrix_2 = MatrixEncryption().encrypt_message(secret_key, message1_scaled)
+            N_squared = EncryptionHelper.get_N_squared()
+            encrypted_matrix_2 = EncryptionHelper().mod_quaternion_matrix(encrypted_matrix_2, N_squared)
             sum_matrix = np.add(encrypted_matrix_1, encrypted_matrix_2)
-            decrypted_message = MatrixDecryption(key_gen).decrypt_message(secret_key, sum_matrix, False)
+            decrypted_message = MatrixDecryption().decrypt_message(secret_key, sum_matrix, False)
 
             if (decrypted_message != (message_scaled + message1_scaled)):
                 count += 1

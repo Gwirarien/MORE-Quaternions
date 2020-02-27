@@ -7,6 +7,25 @@ from pyquaternion import Quaternion
 
 class EncryptionHelper:
 
+    __N = random.randint(1000, 10000)
+    __N_squared = random.randint(1000, 10000)
+
+    @staticmethod
+    def set_N(value):
+        EncryptionHelper.__N = value
+
+    @staticmethod
+    def set_N_squared(value):
+        EncryptionHelper.__N_squared = value
+
+    @staticmethod
+    def get_N():
+        return EncryptionHelper.__N
+
+    @staticmethod
+    def get_N_squared():
+        return EncryptionHelper.__N_squared
+
     @staticmethod
     def is_prime_number(n):
         if n < 2:
